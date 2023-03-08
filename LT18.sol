@@ -6,16 +6,6 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 /*
     ERROR CODES
 
-    ERC errors
-
-    ERC01 : address zero is not a valid owner
-    ERC02 : approval to current owner
-    ERC03 : approve caller is not token owner nor approved for all
-    ERC04 : caller is not token owner nor approved
-    ERC05 : transfer to non ERC721Receiver implementer
-    ERC06 : transfer from incorrect owner
-    ERC07 : approve to caller
-
     Global errors
 
     EROP1 : Cannot set zero as target
@@ -38,15 +28,15 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
     ERLT3 : Value sent does not correspond to price
     ERLT4 : Land already minted
     ERLT5 : No flash sales open for this zone
-    ERLT6 : No corresponding whitelist coupon found
+    ERLT6 : *REMOVED*
     ERLT7 : Land reserved to Terminal18
     ERLT8 : Sender not verified on kyc
+    ERLT9 : Batch minting : targets and tokens length mismatch
 
     Zone handling errors
 
     ERZ1: Invalid zone number
     ERZ2: Invalid zone flash sale count
-
 
 */
 
@@ -68,7 +58,7 @@ contract LandTerminal18 is ERC721 {
         uint32 price;
     }
 
-    string private URI = "";
+    string private URI = "https://terminal18.org/land/";
 
     address private owner_1;
     address private owner_2;
@@ -124,10 +114,10 @@ contract LandTerminal18 is ERC721 {
     // LANDS MINTING
 
     function _initZones() internal {
-        zone_info_list[0] = ZoneInfo(1, 1, 668, 80, false);
-        zone_info_list[1] = ZoneInfo(2, 669, 2622, 40, true);
-        zone_info_list[2] = ZoneInfo(3, 2623, 5674, 20, true);
-        zone_info_list[3] = ZoneInfo(4, 5675, 9632, 10, true);
+        zone_info_list[0] = ZoneInfo(1, 1, 664, 80, false);
+        zone_info_list[1] = ZoneInfo(2, 665, 2564, 40, true);
+        zone_info_list[2] = ZoneInfo(3, 2565, 5457, 20, true);
+        zone_info_list[3] = ZoneInfo(4, 5458, 9731, 10, true);
         flash_sale_list[0] = ZoneFlashSale(1, 0, 0);
         flash_sale_list[1] = ZoneFlashSale(2, 0, 0);
         flash_sale_list[2] = ZoneFlashSale(3, 0, 0);
@@ -148,12 +138,14 @@ contract LandTerminal18 is ERC721 {
         }
     }
 
-    function mintLandBatch(address to, uint256[] memory tokenIds, uint8 lock_key) external {
+    function mintLandBatch(address[] memory targets, uint256[] memory tokenIds, uint8 lock_key) external {
         onlyOwner();
-        if(lockDisengaged(2, lock_key, to, true) && to != address(0)){
+        if(lockDisengaged(2, lock_key, address(0), true)){
+            require(targets.length == tokenIds.length, 'ERLT9');
             for(uint i = 0; i < tokenIds.length; i++){
+                require(targets[i] != address(0), 'EROP1');
                 checkValidTokenId(tokenIds[i], true);
-                _safeMint(to, tokenIds[i]);
+                _safeMint(targets[i], tokenIds[i]);
             }
         }
     }
