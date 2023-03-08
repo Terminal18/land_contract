@@ -132,7 +132,7 @@ contract LandTerminal18 is ERC721 {
 
     function mintLand(address to, uint256 tokenId, uint8 lock_key) external {
         onlyOwner();
-        if(lockDisengaged(1, lock_key, to, false) && to != address(0)){
+        if(lockDisengaged(1, lock_key, to, true) && to != address(0)){
             checkValidTokenId(tokenId, true);
             _safeMint(to, tokenId);
         }
