@@ -114,14 +114,14 @@ contract LandTerminal18 is ERC721 {
     // LANDS MINTING
 
     function _initZones() internal {
-        zone_info_list[0] = ZoneInfo(1, 1, 664, 80, false);
-        zone_info_list[1] = ZoneInfo(2, 665, 2564, 40, true);
-        zone_info_list[2] = ZoneInfo(3, 2565, 5457, 20, true);
-        zone_info_list[3] = ZoneInfo(4, 5458, 9731, 10, true);
-        flash_sale_list[0] = ZoneFlashSale(1, 0, 0);
-        flash_sale_list[1] = ZoneFlashSale(2, 0, 0);
-        flash_sale_list[2] = ZoneFlashSale(3, 0, 0);
-        flash_sale_list[3] = ZoneFlashSale(4, 0, 0);
+        zone_info_list[0] = ZoneInfo(1, 1, 664, 12500, false);
+        zone_info_list[1] = ZoneInfo(2, 665, 2564, 5800, false);
+        zone_info_list[2] = ZoneInfo(3, 2565, 5457, 2900, false);
+        zone_info_list[3] = ZoneInfo(4, 5458, 9731, 1900, false);
+        flash_sale_list[0] = ZoneFlashSale(1, 11, 7500);
+        flash_sale_list[1] = ZoneFlashSale(2, 38, 3500);
+        flash_sale_list[2] = ZoneFlashSale(3, 29, 1700);
+        flash_sale_list[3] = ZoneFlashSale(4, 21, 1200);
     }
 
     function externalMint(address to, uint256 tokenId) public {
