@@ -58,7 +58,7 @@ contract LandTerminal18 is ERC721 {
         uint32 price;
     }
 
-    string private URI = "https://terminal18.org/land/";
+    string private URI = "";
 
     address private owner_1;
     address private owner_2;
@@ -194,7 +194,6 @@ contract LandTerminal18 is ERC721 {
         while(index < zone_count && tokenId > zone_info_list[index].end){
             index++;
         }
-        require(index < zone_count, "ERLT1");
         return zone_info_list[index];
     }
 
